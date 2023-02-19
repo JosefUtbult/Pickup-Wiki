@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Bass Pickups{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='scripts/sort-table.js') }}"></script>{% endblock %}
+
+{% block content %}
+<h1>Bass Pickups</h1>
+
+<table id="sort-table">
+    <tr>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Pickup type</th>
+        <th>Strings</th>
+        <th class="align-right">Position</th>
+        <th class="align-right">String Spacing</th>
+        <th class="align-right">Width</th>
+        <th class="align-right">Height</th>
+        <th class="align-right">Depth</th>
+        <th class="align-right">Supplier page</th>
+    </tr>
+    {% for key in pickup_data.bass %}
+    {% set instance=pickup_data.bass[key] %}
+    <tr>
+        <td>{{ instance.name }}</td>
+        <td>{{ instance.brand }}</td>
+        <td>{{ instance.type }}</td>
+        <td>{{ instance.strings }}</td>
+        <td class="align-right">{% if instance.position %}{{ instance.position }}{% else %}-{% endif %}</td>
+        <td class="align-right">{% if instance.spacing %}{{ instance.spacing }} mm{% else %}-{% endif %}</td>
+        <td class="align-right">{% if instance.width %}{{ instance.width }} mm{% else %}-{% endif %}</td>
+        <td class="align-right">{% if instance.height %}{{ instance.height }} mm{% else %}-{% endif %}</td>
+        <td class="align-right">{% if instance.depth %}{{ instance.depth }} mm{% else %}-{% endif %}</td>
+        <td class="align-right">{% if instance.link %}<a href="{{ instance.link }}">{{ instance.name }} - {{ instance.brand }}</a>{% else %}-{% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

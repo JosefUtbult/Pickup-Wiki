@@ -1,0 +1,58 @@
+[
+    {
+        "id": "Nordstrand-NJ4SE-neck",
+        "name": "NJ4SE",
+        "brand": "Nordstrand Audio",
+        "type": "Jazz",
+        "strings": 4,
+        "position": "neck",
+        "spacing": 19.0,
+        "width": 91.44,
+        "height": 18.29,
+        "link": "https://nordstrandaudio.com/products/nj4se-hum-cancelling"
+    },
+    {
+        "id": "Nordstrand-NJ4SE-bridge",
+        "name": "NJ4SE",
+        "brand": "Nordstrand Audio",
+        "type": "Jazz",
+        "strings": 4,
+        "position": "bridge",
+        "spacing": 19.0,
+        "width": 94.74,
+        "height": 18.29,
+        "link": "https://nordstrandaudio.com/products/nj4se-hum-cancelling"
+    },
+    {
+        "id": "Nordstrand-NP4",
+        "name": "NP4",
+        "brand": "Nordstrand Audio",
+        "type": "Precision",
+        "strings": 4,
+        "spacing": 19.0,
+        "width": 56.52,
+        "height": 27.94,
+        "link": "https://nordstrandaudio.com/products/np4"
+    },
+    {
+        "id": "Nordstrand-NP5",
+        "name": "NP5",
+        "brand": "Nordstrand Audio",
+        "type": "Precision",
+        "strings": 5,
+        "width": 56.52,
+        "height": 27.94,
+        "link": "https://nordstrandaudio.com/collections/5-string-precision-bass-pickups/products/np5"
+    },
+    {
+        "id": "Nordstrand-MM4.2",
+        "name": "MM4.2",
+        "brand": "Nordstrand Audio",
+        "type": "Humbucker",
+        "strings": 4,
+        "spacing": 19.0,
+        "width": 88.9,
+        "height": 48.13,
+        "link": "https://nordstrandaudio.com/products/mm4-2-dual-coil"
+    }
+]

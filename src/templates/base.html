@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %} - Pickup Wiki</title>
+
+    <!-- Skeleton responsive boilerplate and base stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/skeleton.css') }}">
+
+    <!-- Site specific stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/fonts/fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/base.css') }}">
+   
+    <!-- Page specific stylesheets -->
+    {% block stylesheets %}{% endblock %}
+
+    <!-- Page specific scripts -->
+    {% block scripts %}{% endblock %}
+
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
