@@ -9,7 +9,8 @@
         "spacing": 19.0,
         "width": 91.44,
         "height": 18.29,
-        "link": "https://nordstrandaudio.com/products/nj4se-hum-cancelling"
+        "link": "https://nordstrandaudio.com/products/nj4se-hum-cancelling",
+        "image": "img/pickups/bass/Nordstrand/NJ4SE.webp"
     },
     {
         "id": "Nordstrand-NJ4SE-bridge",
@@ -21,7 +22,8 @@
         "spacing": 19.0,
         "width": 94.74,
         "height": 18.29,
-        "link": "https://nordstrandaudio.com/products/nj4se-hum-cancelling"
+        "link": "https://nordstrandaudio.com/products/nj4se-hum-cancelling",
+        "image": "img/pickups/bass/Nordstrand/NJ4SE.webp"
     },
     {
         "id": "Nordstrand-NP4",
@@ -32,7 +34,8 @@
         "spacing": 19.0,
         "width": 56.52,
         "height": 27.94,
-        "link": "https://nordstrandaudio.com/products/np4"
+        "link": "https://nordstrandaudio.com/products/np4",
+        "image": "img/pickups/bass/Nordstrand/NP4.webp"
     },
     {
         "id": "Nordstrand-NP5",
@@ -42,7 +45,8 @@
         "strings": 5,
         "width": 56.52,
         "height": 27.94,
-        "link": "https://nordstrandaudio.com/collections/5-string-precision-bass-pickups/products/np5"
+        "link": "https://nordstrandaudio.com/collections/5-string-precision-bass-pickups/products/np5",
+        "image": "img/pickups/bass/Nordstrand/NP5.webp"
     },
     {
         "id": "Nordstrand-MM4.2",
@@ -53,6 +57,7 @@
         "spacing": 19.0,
         "width": 88.9,
         "height": 48.13,
-        "link": "https://nordstrandaudio.com/products/mm4-2-dual-coil"
+        "link": "https://nordstrandaudio.com/products/mm4-2-dual-coil",
+        "image": "img/pickups/bass/Nordstrand/MM4-2.webp"
     }
 ]

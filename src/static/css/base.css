@@ -1,8 +1,61 @@
+:root {
+    /* Misc */
+    --header-font-size: 1em;
+    /* Transitions */
+    --hover-transition: ease 200ms;
+    /* Colors */
+    --primary-color: #4dc75d;
+    --primary-sub-color: #42b451;
+    --background-color: #333333;
+    --background-sub-color: #272727;
+}
+
 body {
     font-family: Oswald;
 }
 
+div.align-right {
+    display: flex;
+    justify-content: right;
+}
 
-.align-right {
+div.align-right label {
     text-align: right;
+}
+
+th.align-right,
+td.align-right {
+    text-align: right;
+}
+
+table.horizontal {
+    display: table;
+}
+
+table.horizontal tr {
+    display: table-cell;
+}
+
+table.horizontal td {
+    display: block;
+}
+
+button.primary,
+input.primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: solid 1.4px #ffffff7f;
+    transition: background-color var(--hover-transition);
+}
+
+a:hover button.primary, 
+button.primary:hover,
+input.primary:hover {
+    color: white;
+    border: solid 1.4px #ffffff7f;
+    background-color: var(--primary-sub-color);
+}
+
+button.no-margin {
+    margin: 0;
 }

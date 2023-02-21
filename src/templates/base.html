@@ -1,3 +1,9 @@
+{% macro if_active(endpoint) %}
+{% if request.endpoint == endpoint or active == endpoint %}
+class="active"
+{% endif %}
+{% endmacro %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +18,7 @@
     <!-- Site specific stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='/fonts/fonts.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/navbar.css') }}">
    
     <!-- Page specific stylesheets -->
     {% block stylesheets %}{% endblock %}
@@ -20,8 +27,17 @@
     {% block scripts %}{% endblock %}
 
 </head>
-<body>
-    <div class="container">
+<body {% block body_attr %}{% endblock %}>
+    <div id="navbar">
+        <ul>
+            <li><a {{ if_active('home') }} href="{{ url_for('home') }}">Home</a></li>
+            <li><a {{ if_active('bass_pickups') }} href="{{ url_for('bass_pickups') }}">Bass Pickups</a></li>
+            <li><a {{ if_active('contact') }} href="#contact">Contact</a></li>
+            <li><a {{ if_active('about') }} href="#about">About</a></li>
+          </ul>
+    </div>
+
+    <div id="page-content" class="container">
         {% block content %}
         {% endblock %}
     </div>

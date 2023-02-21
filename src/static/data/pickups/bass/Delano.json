@@ -9,7 +9,8 @@
         "width": 92.0,
         "height": 18.5,
         "depth": 20.0,
-        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html"
+        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/jmvc_5_fe_m2.png"
     },
     {
         "id": "Delano-JMVC-5-FE-M2-bridge",
@@ -21,7 +22,8 @@
         "width": 95.0,
         "height": 18.5,
         "depth": 20.0,
-        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html"
+        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/jmvc_5_fe_m2.png"
     },
     {
         "id": "Delano-JMVC-5-FE-M2-AS-neck",
@@ -33,7 +35,8 @@
         "width": 101.5,
         "height": 18.6,
         "depth": 21.0,
-        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html"
+        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/jmvc_5_fe_m2-as.png"
     },
     {
         "id": "Delano-JMVC-5-FE-M2-AS-bridge",
@@ -45,7 +48,8 @@
         "width": 104.6,
         "height": 18.6,
         "depth": 21.0,
-        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html"
+        "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/jmvc_5_fe_m2-as.png"
     },
     {
         "id": "Delano-JMVC-4-FE-M2-neck",
@@ -57,7 +61,8 @@
         "width": 92.0,
         "height": 18.5,
         "depth": 20.0,
-        "link": "https://www.delano.de/jmvc_4_fe_m2/jmvc_4_fe_m2_details.html"
+        "link": "https://www.delano.de/jmvc_4_fe_m2/jmvc_4_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/jmvc_4_fe_m2.png"
     },
     {
         "id": "Delano-JMVC-4-FE-M2-bridge",
@@ -69,7 +74,8 @@
         "width": 95.0,
         "height": 18.5,
         "depth": 20.0,
-        "link": "https://www.delano.de/jmvc_4_fe_m2/jmvc_4_fe_m2_details.html"
+        "link": "https://www.delano.de/jmvc_4_fe_m2/jmvc_4_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/jmvc_4_fe_m2.png"
     },
     {
         "id": "Delano-PMVC-4-FE-M2",
@@ -80,7 +86,8 @@
         "width": 61.4,
         "height": 27.4,
         "depth": 19.0,
-        "link": "https://www.delano.de/pmvc_4_fe_m2/pmvc_4_fe_m2_details.html"
+        "link": "https://www.delano.de/pmvc_4_fe_m2/pmvc_4_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/pmvc_4_fe_m2.png"
     },
     {
         "id": "Delano-MC-4-FE",
@@ -91,7 +98,8 @@
         "width": 89.0,
         "height": 48.4,
         "depth": 18.5,
-        "link": "https://www.delano.de/mc_4_fe/mc_4_fe_details.html"
+        "link": "https://www.delano.de/mc_4_fe/mc_4_fe_details.html",
+        "image": "img/pickups/bass/Delano/mc_4_fe.png"
     },
     {
         "id": "Delano-MC-4-FE-M2",
@@ -102,7 +110,8 @@
         "width": 89.0,
         "height": 48.4,
         "depth": 18.5,
-        "link": "https://www.delano.de/mc_4_fe_m2/mc_4_fe_m2_details.html"
+        "link": "https://www.delano.de/mc_4_fe_m2/mc_4_fe_m2_details.html",
+        "image": "img/pickups/bass/Delano/mc_4_fe_m2.png"
     },
     {
         "id": "Delano-SBC-4-HE-S",
@@ -113,6 +122,7 @@
         "width": 89.0,
         "height": 48.4,
         "depth": 18.5,
-        "link": "https://www.delano.de/sbc_4_he_s/sbc4_he_s_details.html"
+        "link": "https://www.delano.de/sbc_4_he_s/sbc4_he_s_details.html",
+        "image": "img/pickups/bass/Delano/sbc_4_he_s.png"
     }
 ]

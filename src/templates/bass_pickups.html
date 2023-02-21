@@ -2,40 +2,125 @@
 
 {% block title %}Bass Pickups{% endblock %}
 
+{% block body_attr %}onload="load_json('{{ url_for('pickup_data') }}')"{% endblock %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{{ url_for('static', filename='/css/pickups.css') }}">{% endblock %}
+
 {% block scripts %}<script src="{{ url_for('static', filename='scripts/sort-table.js') }}"></script>{% endblock %}
 
-{% block content %}
-<h1>Bass Pickups</h1>
+{% macro checkbox_filter(key, list) %}
+{% for instance in list %}
+{% set instance_id = key + "-" + instance|string|replace(' ', '-') %}
+<p>
+    <input type="checkbox" name="{{ instance_id }}">
+    <label for="{{ instance_id }}">{{ instance }}</label>
+</p>
+{% endfor %}
+{% endmacro %}
 
-<table id="sort-table">
-    <tr>
-        <th>Name</th>
-        <th>Brand</th>
-        <th>Pickup type</th>
-        <th>Strings</th>
-        <th class="align-right">Position</th>
-        <th class="align-right">String Spacing</th>
-        <th class="align-right">Width</th>
-        <th class="align-right">Height</th>
-        <th class="align-right">Depth</th>
-        <th class="align-right">Supplier page</th>
-    </tr>
-    {% for key in pickup_data.bass %}
-    {% set instance=pickup_data.bass[key] %}
-    <tr>
-        <td>{{ instance.name }}</td>
-        <td>{{ instance.brand }}</td>
-        <td>{{ instance.type }}</td>
-        <td>{{ instance.strings }}</td>
-        <td class="align-right">{% if instance.position %}{{ instance.position }}{% else %}-{% endif %}</td>
-        <td class="align-right">{% if instance.spacing %}{{ instance.spacing }} mm{% else %}-{% endif %}</td>
-        <td class="align-right">{% if instance.width %}{{ instance.width }} mm{% else %}-{% endif %}</td>
-        <td class="align-right">{% if instance.height %}{{ instance.height }} mm{% else %}-{% endif %}</td>
-        <td class="align-right">{% if instance.depth %}{{ instance.depth }} mm{% else %}-{% endif %}</td>
-        <td class="align-right">{% if instance.link %}<a href="{{ instance.link }}">{{ instance.name }} - {{ instance.brand }}</a>{% else %}-{% endif %}</td>
-    </tr>
-    {% endfor %}
-</table>
+{% macro min_max_slider_filter(key, min, max, unit) %}
+{% set instance_id = key + "-id" %}
+{% set instance_output = key + "-output" %}
+
+{% set instance_max_id = "max-" + instance_id %}
+{% set instance_max_output = "max-" + instance_output %}
+
+{% set instance_min_id = "min-" + instance_id %}
+{% set instance_min_output = "min-" + instance_output %}
+
+<div class="row">
+    <output id="{{ instance_max_output }}" class="six columns">{{ max }} {{ unit }}</output>
+    <div class="align-right">
+        <label for="{{ instance_max_id }}" class="six columns">Max</label>
+    </div>
+</div>
+<input type="range" name="{{ instance_max_id }}" value="{{ max }}" min="{{ min }}" max="{{ max }}" oninput="slider_update(this, '{{ instance_max_output }}')">
+
+<div class="row">
+    <output id="{{ instance_min_output }}" class="six columns">{{ min }} {{ unit }}</output>
+    <div class="align-right">
+        <label for="{{ instance_min_id }}" class="six columns">Min</label>
+    </div>
+</div>
+<input type="range" name="{{ instance_min_id }}" value="{{ min }}" min="{{ min }}" max="{{ max }}" oninput="slider_update(this, '{{ instance_min_output }}')">
+{% endmacro %}
+
+{% block content %}
+<div class="row">
+    <h1>Bass Pickups</h1>
+</div>
+<div class="row">
+    <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+    <form id="filter" method="get" target="hiddenFrame" onsubmit="apply_filter()">
+        <div class="row">
+            <div class="six columns">
+                <h3>Filter</h3>
+            </div>
+            <div class="six columns align-right">
+                <input type="submit" class="primary no-margin" value="Apply"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <h5>Brands</h5>
+                {{ checkbox_filter('brand', filter.brands) }}
+            </div>
+            <div>
+                <h5>Pickup type</h5>
+                {{ checkbox_filter('type', filter.types) }}
+            </div>
+            <div>
+                <h5>Number of strings</h5>
+                {{ checkbox_filter('strings', filter.strings) }}
+            </div>
+            <div>
+                <h5>Position</h5>
+                {{ checkbox_filter('positions', filter.positions) }}
+            </div>
+            <div>
+                <h5>Width</h5>
+                {{ min_max_slider_filter('width', filter.width[0], filter.width[1], 'mm') }}
+            </div>
+            <div>
+                <h5>Height</h5>
+                {{ min_max_slider_filter('height', filter.height[0], filter.height[1], 'mm') }}
+            </div>
+            <div>
+                <h5>Depth</h5>
+                {{ min_max_slider_filter('depth', filter.depth[0], filter.depth[1], 'mm') }}
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <table id="sort-table">
+        <tr>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Pickup type</th>
+            <th>Strings</th>
+            <th>Position</th>
+            <th class="align-right">Width</th>
+            <th class="align-right">Height</th>
+            <th class="align-right">Depth</th>
+            <th class="align-right">Manufacturer page</th>
+        </tr>
+        {% for key in pickup_data.bass %}
+        {% set instance=pickup_data.bass[key] %}
+        <tr>
+            <td><a href="{{ url_for('pickup_instance', key=key) }}">{{ instance.name|capitalize }}</a></td>
+            <td>{{ instance.brand|capitalize }}</td>
+            <td>{{ instance.type|capitalize }}</td>
+            <td>{{ instance.strings }}</td>
+            <td>{% if instance.position %}{{ instance.position|capitalize }}{% endif %}</td>
+            <td class="align-right">{% if instance.width %}{{ instance.width }} mm{% endif %}</td>
+            <td class="align-right">{% if instance.height %}{{ instance.height }} mm{% endif %}</td>
+            <td class="align-right">{% if instance.depth %}{{ instance.depth }} mm{% endif %}</td>
+            <td class="align-right">{% if instance.link %}<a href="{{ instance.link }}">{{ instance.name|capitalize }} - {{ instance.brand|capitalize }}</a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 
 {% endblock %}

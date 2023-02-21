@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ instance.name }}{% endblock %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{{ url_for('static', filename='/css/pickup.css') }}">{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h1>{{ instance.name }}</h1>
+    <h3>{{ instance.brand }}</h3>
+</div>
+<div class="row">
+    <div class="six columns">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td>{{ instance.name }}</td>
+            </tr>
+            <tr>
+                <td>Brand</td>        
+                <td>{{ instance.brand }}</td>
+            </tr>
+            <tr>
+                <td>Pickup type</td>        
+                <td>{{ instance.type }}</td>
+            </tr>
+            <tr>
+                <td>Number of strings</td>        
+                <td>{{ instance.strings }}</td>
+            </tr>
+            {% for key in instance %}
+            {% if key not in ["name", "brand", "type", "strings", "link", "image"] %}
+            <tr>
+                <td>{{ key|capitalize }}</td>
+                <td>{{ instance[key]|capitalize }}{% if key in ["width", "height", "depth"] %} mm{% endif %}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        {% if instance.link %}
+        <a href="{{ instance.link }}">
+            <button class="primary">Manufacturer page</button>
+        </a>
+        {% endif %}
+    </div>
+    <div class="six columns">
+        {% if instance.image %}
+        <div class="pickup-image">
+            <img src="{{ url_for('static', filename=instance.image) }}">
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}
