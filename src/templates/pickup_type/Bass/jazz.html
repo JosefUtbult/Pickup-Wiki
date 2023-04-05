@@ -1,0 +1,285 @@
+{% if instance.fullHeight and instance.innerWidth %}
+
+{% import "pickup_definitions.html" as defs %}
+{% set radius = (instance.fullHeight - instance.height) / 2 %}
+
+<svg height="{{ instance.fullHeight + defs.full_padding * 2 }}mm" width="{{ instance.width + defs.full_padding * 2}}mm">
+    <!-- Top left ear -->
+    <circle
+        cx="{{ (instance.width - instance.innerWidth) / 2 + defs.full_padding }}mm",
+        cy="{{ defs.full_padding + radius }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.stroke_width }}mm",
+        stroke-linejoin="round"
+    />
+    <!-- Top right ear -->
+    <circle
+        cx="{{ (instance.width + instance.innerWidth) / 2 + defs.full_padding }}mm",
+        cy="{{ defs.full_padding + radius }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.stroke_width }}mm",
+        stroke-linejoin="round"
+    />
+    <!-- Bottom left ear -->
+    <circle
+        cx="{{ (instance.width - instance.innerWidth) / 2 + defs.full_padding }}mm",
+        cy="{{ defs.full_padding + instance.fullHeight - radius }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.stroke_width }}mm",
+        stroke-linejoin="round"
+    />
+    <!-- Bottom right ear -->
+    <circle
+        cx="{{ (instance.width + instance.innerWidth) / 2 + defs.full_padding }}mm",
+        cy="{{ defs.full_padding + instance.fullHeight - radius }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.stroke_width }}mm",
+        stroke-linejoin="round"
+    />
+    <rect
+        x="{{ defs.full_padding }}mm"
+        y="{{ radius + defs.full_padding }}mm" 
+        width="{{ instance.width }}mm" 
+        height="{{ instance.height }}mm" 
+        rx="{{ instance.edgeRadius }}mm"
+        stroke="black" 
+        fill="white" 
+        stroke-width="{{ defs.stroke_width }}mm" 
+        stroke-linejoin="round"
+    />
+    {% if defs.debug %}
+    <rect
+        x="0",
+        y="0",
+        width="100%",
+        height="100%",
+        stroke="red",
+        fill="none",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    <rect
+        x="{{ defs.padding }}mm",
+        y="{{ defs.padding }}mm",
+        width="{{ instance.width + defs.dimensional_padding * 2 }}mm",
+        height="{{ instance.fullHeight + defs.dimensional_padding * 2 }}mm",
+        stroke="green",
+        fill="none",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    <rect
+        x="{{ defs.full_padding }}mm",
+        y="{{ defs.full_padding }}mm",
+        width="{{ instance.width }}mm",
+        height="{{ instance.fullHeight }}mm",
+        stroke="blue",
+        fill="none",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    {% endif %}
+    
+{% set dimension_height = 4 %}
+{% set arrow_offset = 1.6 %}
+
+{% macro horizontal_line(x, y, width) %}
+    {% if width > 999.9 %}
+        {% set text_length = 20 %}
+    {% elif width > 99.9 %}
+        {% set text_length = 16 %}
+    {% else %}
+        {% set text_length = 14 %}
+    {% endif %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + width }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrow_offset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrow_offset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y - arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    <line
+        x1="{{ x + width }}mm",
+        x2="{{ x + width - arrow_offset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    <line
+        x1="{{ x + width }}mm",
+        x2="{{ x + width - arrow_offset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y - arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    <text
+        x="{{ x + (width - text_length) / 2 }}mm",
+        y="{{ y - 0.5 }}mm",
+        textLength="{{ text_length }}mm",
+        fill="gray"
+    >{{ "%.1fmm"|format(width) }}</text>
+{% endmacro %}
+
+{% macro horizontal_dimension(x, y, width, layer) %}
+{% set _y = defs.padding + dimension_height / 2 + dimension_height * layer %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x }}mm",
+        y1="{{ defs.padding + dimension_height * layer }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    <line
+        x1="{{ x + width }}mm",
+        x2="{{ x + width }}mm",
+        y1="{{ defs.padding + dimension_height * layer }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    {{ horizontal_line(x, _y, width) }}
+
+{% endmacro %}
+
+{% macro vertical_line(x, y, height) %}
+    {% if height > 999.9 %}
+        {% set text_length = 20 %}
+    {% elif height > 99.9 %}
+        {% set text_length = 16 %}
+    {% else %}
+        {% set text_length = 14 %}
+    {% endif %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + height }}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrow_offset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x - arrow_offset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x - arrow_offset }}mm",
+        y1="{{ y + height }}mm",
+        y2="{{ y + height - arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrow_offset }}mm",
+        y1="{{ y + height }}mm",
+        y2="{{ y + height - arrow_offset}}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}"
+    />
+    {% set text_y = x - 0.5 %}
+    <!-- Ugly hack to get the text position acceptable for small heights -->
+    {% if height < 20 %}
+        {% set text_x = -defs.full_padding - height - y + text_length + 0.5 %}
+    {% else %}
+        {% set text_x = -defs.full_padding - (height - text_length) / 2 - text_length %}
+    {% endif %}
+    <text
+        transform="rotate(-90, 0, 0)"
+        x="{{ text_x }}mm",
+        y="{{ text_y }}mm",
+        textLength="{{ text_length }}mm",
+        fill="gray",
+    >{{ "%.1fmm"|format(height) }}</text>
+    
+{% endmacro %}
+
+
+{% macro vertical_dimension(x, y, height, layer) %}
+    {% set _x = defs.padding + dimension_height / 2 + dimension_height * layer %}
+    <line
+        x1="{{ defs.padding + dimension_height * layer }}mm",
+        x2="{{ x }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+    <line
+        x1="{{ defs.padding + dimension_height * layer }}mm",
+        x2="{{ x }}mm",
+        y1="{{ y + height }}mm",
+        y2="{{ y + height }}mm",
+        stroke="gray",
+        stroke-width="{{ defs.stroke_width }}mm"
+    />
+
+    {{ vertical_line(_x, y, height) }}
+
+{% endmacro %}
+
+    {{ horizontal_dimension(
+        defs.full_padding, 
+        defs.full_padding + radius, 
+        instance.width, 
+        0
+    ) }}
+    {{ horizontal_dimension(
+        (instance.width - instance.innerWidth) / 2 + defs.full_padding, 
+        defs.full_padding + radius, 
+        instance.innerWidth, 
+        1
+    ) }}
+    {{ vertical_dimension(
+        (instance.width - instance.innerWidth) / 2 + defs.full_padding, 
+        defs.full_padding, 
+        instance.fullHeight,
+        0
+    ) }}
+    {{ vertical_dimension(
+        defs.full_padding,
+        defs.full_padding + radius, 
+        instance.height,
+        1
+    ) }}
+
+</svg>
+
+{% endif %}

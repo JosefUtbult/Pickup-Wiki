@@ -1,7 +1,12 @@
-#filter {
+#filter-container {
     border: solid 1px #d8d8d8;
     border-radius: 1mm;
     padding: 2mm;
+}
+
+#filter {
+    overflow-y: hidden;
+    transition: height ease-in-out 300ms;
 }
 
 #filter > div:last-child {
@@ -43,4 +48,14 @@
 
 table {
     width: 100%;
+}
+
+.filter-fold-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.fold {
+    height: 20px;
 }

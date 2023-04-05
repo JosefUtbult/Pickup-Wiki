@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ instance.name }}{% endblock %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ url_for('static', filename='/css/pickup.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pickup.css') }}">{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -31,7 +31,7 @@
             {% if key not in ["name", "brand", "type", "strings", "link", "image"] %}
             <tr>
                 <td>{{ key|capitalize }}</td>
-                <td>{{ instance[key]|capitalize }}{% if key in ["width", "height", "depth"] %} mm{% endif %}</td>
+                <td>{{ instance[key]|capitalize }}{% if key in ["width", "height", "depth", "innerWidth", "fullHeight", "edgeRadius"] %} mm{% endif %}</td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -48,6 +48,11 @@
             <img src="{{ url_for('static', filename=instance.image) }}">
         </div>
         {% endif %}
+        <div class="dimensions">
+            {% if instance.type == "Jazz" %}
+            {% include "pickup_type/Bass/jazz.html" %}
+            {% endif %}
+        </div>
     </div>
 </div>
 

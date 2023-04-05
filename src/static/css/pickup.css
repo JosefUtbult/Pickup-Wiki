@@ -6,3 +6,13 @@
 .pickup-image img {
     width: 100%;
 }
+
+.dimensions text {
+    font-size: small;
+    font-family: UbuntuMono;
+}
+
+.vertical {
+    transform: rotate(-90deg);
+    transform-origin: top left;
+}

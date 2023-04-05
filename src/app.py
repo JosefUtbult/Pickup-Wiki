@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, request, jsonify
+from flask import Flask, render_template, abort, request, jsonify, redirect
 from pathlib import Path
 import json
 from math import floor, ceil
@@ -101,6 +101,9 @@ def pickup_instance(key):
     else:
         return abort(404)
 
+@app.route("/admin")
+def admin():
+    return redirect("https://youtu.be/dQw4w9WgXcQ")
 
 if __name__ == "__main__":
     setup()

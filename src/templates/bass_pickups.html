@@ -4,9 +4,12 @@
 
 {% block body_attr %}onload="load_json('{{ url_for('pickup_data') }}')"{% endblock %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ url_for('static', filename='/css/pickups.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pickups.css') }}">{% endblock %}
 
-{% block scripts %}<script src="{{ url_for('static', filename='scripts/sort-table.js') }}"></script>{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/sort-table.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/pickups.js') }}"></script>
+{% endblock %}
 
 {% macro checkbox_filter(key, list) %}
 {% for instance in list %}
@@ -49,7 +52,7 @@
 <div class="row">
     <h1>Bass Pickups</h1>
 </div>
-<div class="row">
+<div class="row" id="filter-container">
     <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
     <form id="filter" method="get" target="hiddenFrame" onsubmit="apply_filter()">
         <div class="row">
@@ -91,6 +94,9 @@
             </div>
         </div>
     </form>
+    <div class="filter-fold-container">
+        <button class="filter-fold-button" onclick="onFold()">Fold</button>
+    </div>
 </div>
 <div class="row">
     <table id="sort-table">

@@ -12,13 +12,13 @@ class="active"
     <title>{% block title %}{% endblock %} - Pickup Wiki</title>
 
     <!-- Skeleton responsive boilerplate and base stylesheets -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/normalize.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/skeleton.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
 
     <!-- Site specific stylesheets -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='/fonts/fonts.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
    
     <!-- Page specific stylesheets -->
     {% block stylesheets %}{% endblock %}
@@ -34,6 +34,7 @@ class="active"
             <li><a {{ if_active('bass_pickups') }} href="{{ url_for('bass_pickups') }}">Bass Pickups</a></li>
             <li><a {{ if_active('contact') }} href="#contact">Contact</a></li>
             <li><a {{ if_active('about') }} href="#about">About</a></li>
+            <li><a {{ if_active('admin') }} href="{{ url_for('admin') }}">Admin</a></li>
           </ul>
     </div>
 
