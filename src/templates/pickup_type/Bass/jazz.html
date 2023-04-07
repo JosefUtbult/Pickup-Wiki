@@ -1,14 +1,43 @@
-{% if instance.fullHeight and instance.innerWidth %}
-
 {% import "pickup_definitions.html" as defs %}
-{% set radius = (instance.fullHeight - instance.height) / 2 %}
 
-<svg height="{{ instance.fullHeight + defs.padding * 2 }}mm" width="{{ instance.width + defs.padding * 2}}mm">
-    {{ defs.debug_draw(instance.width, instance.fullHeight) }}
+{# declare height if not specified #}
+{% if dimensions.height %}
+    {% set height = dimensions.height %}
+{% else %}
+    {% set height = 20 %}
+{% endif %}
+
+{# declare width if not specified #}
+{% if dimensions.width %}
+    {% set width = dimensions.width %}
+{% else %}
+    {% set width = 100 %}
+{% endif %}
+
+{# declare full height if not specified #}
+{% if dimensions.fullHeight %}
+    {% set fullHeight = dimensions.fullHeight %}
+{% else %}
+    {% set fullHeight = height + 10 %}
+{% endif %}
+
+{# declare inner width if not specified #}
+{% if dimensions.innerWidth %}
+    {% set innerWidth = dimensions.innerWidth %}
+{% else %}
+    {% set innerWidth = width - 50 %}
+{% endif %}
+
+{% set radius = (fullHeight - height) / 2 %}
+{% set innerWidthOffset =  (width - innerWidth) / 2 + defs.padding %}
+{% set bottom = defs.padding + fullHeight - radius %}
+
+<svg height="{{ fullHeight + defs.padding * 2 }}mm" width="{{ width + defs.padding * 2}}mm">
+    {{ defs.debug_draw(width, fullHeight) }}
 
     <!-- Top left ear -->
     <circle
-        cx="{{ (instance.width - instance.innerWidth) / 2 + defs.padding }}mm",
+        cx="{{ innerWidthOffset }}mm",
         cy="{{ defs.padding + radius }}mm",
         r="{{ radius }}mm",
         stroke="black",
@@ -18,7 +47,7 @@
     />
     <!-- Top right ear -->
     <circle
-        cx="{{ (instance.width + instance.innerWidth) / 2 + defs.padding }}mm",
+        cx="{{ innerWidthOffset + innerWidth }}mm",
         cy="{{ defs.padding + radius }}mm",
         r="{{ radius }}mm",
         stroke="black",
@@ -28,8 +57,8 @@
     />
     <!-- Bottom left ear -->
     <circle
-        cx="{{ (instance.width - instance.innerWidth) / 2 + defs.padding }}mm",
-        cy="{{ defs.padding + instance.fullHeight - radius }}mm",
+        cx="{{ innerWidthOffset }}mm",
+        cy="{{ bottom }}mm",
         r="{{ radius }}mm",
         stroke="black",
         fill="white",
@@ -38,8 +67,8 @@
     />
     <!-- Bottom right ear -->
     <circle
-        cx="{{ (instance.width + instance.innerWidth) / 2 + defs.padding }}mm",
-        cy="{{ defs.padding + instance.fullHeight - radius }}mm",
+        cx="{{ innerWidthOffset + innerWidth }}mm",
+        cy="{{ bottom }}mm",
         r="{{ radius }}mm",
         stroke="black",
         fill="white",
@@ -49,56 +78,64 @@
     <rect
         x="{{ defs.padding }}mm"
         y="{{ radius + defs.padding }}mm" 
-        width="{{ instance.width }}mm" 
-        height="{{ instance.height }}mm" 
+        width="{{ width }}mm" 
+        height="{{ height }}mm" 
         stroke="black" 
         fill="white" 
         stroke-width="{{ defs.strokeWidth }}mm" 
         stroke-linejoin="round"
-        {% if instance.edgeRadius %}
-        rx="{{ instance.edgeRadius }}mm"
+        {% if dimensions.edgeRadius %}
+        rx="{{ dimensions.edgeRadius }}mm"
         {% else %}
         rx="2mm"
         {% endif %}
     />
 
-    <!-- Pickup width -->
-    {{ defs.horizontalDimension(
-        defs.padding, 
-        defs.padding + radius, 
-        instance.width, 
-        0
-    ) }}
+    {% if dimensions.width %}
+        <!-- Pickup width -->
+        {{ defs.horizontalDimension(
+            defs.padding, 
+            defs.padding + radius, 
+            width, 
+            0
+        ) }}
+    {% endif %}
+
+    {% if dimensions.innerWidth %}
     <!-- Ear to ear width -->
     {{ defs.horizontalDimension(
-        (instance.width - instance.innerWidth) / 2 + defs.padding, 
+        (width - innerWidth) / 2 + defs.padding, 
         defs.padding + radius, 
-        instance.innerWidth, 
-        1
+        innerWidth, 
+        1 if dimensions.height else 0
     ) }}
+    {% endif %}
+
+    {% if dimensions.fullHeight %}
     <!-- Ear to ear height -->
     {{ defs.verticalDimension(
-        (instance.width - instance.innerWidth) / 2 + defs.padding, 
+        (width - innerWidth) / 2 + defs.padding, 
         defs.padding, 
-        instance.fullHeight,
+        fullHeight,
         0
     ) }}
+    {% endif %}
+    {% if dimensions.height %}
     <!-- Pickup height -->
     {{ defs.verticalDimension(
         defs.padding,
         defs.padding + radius, 
-        instance.height,
-        1
+        height,
+        1 if dimensions.fullHeight else 0
     ) }}
-    {% if instance.edgeRadius %}
+    {% endif %}
+    {% if dimensions.edgeRadius %}
     <!-- Edge radius -->
     {{ defs.bottomRightAngle(
-        defs.padding + instance.width, 
-        defs.padding + instance.height + radius,
-        instance.edgeRadius
+        defs.padding + width, 
+        defs.padding + height + radius,
+        dimensions.edgeRadius
     ) }}
     {% endif %}
 
 </svg>
-
-{% endif %}

@@ -9,16 +9,13 @@ app = Flask(__name__)
 class PickupParsingException(Exception):
     pass
 
-def parse_pickup_instance(instance):
-    instance_id = instance['id'] if 'id' in instance else "unspecified"
-    # instance_id = instance['id'] if 'id' in instance else 'unspecified'
-
+def parse_pickup_instance(instance_id, instance):
     # Check for mandatory keys that should be strings
-    for key in ("id", "name", "brand", "type", "strings"):
+    for key in ("name", "brand", "type", "strings"):
         if not key in instance:
             raise KeyError(f"{key} not in instance {instance_id}")
 
-    for key in ("id", "name", "brand", "type"):
+    for key in ("name", "brand", "type"):
         if not type(instance[key]) is str:
             raise PickupParsingException(f"{key} should be of the type string in instance {instance_id}")
 
@@ -27,11 +24,14 @@ def parse_pickup_instance(instance):
             raise PickupParsingException(f"{key} should be of the type int or float in instance {instance_id}")
 
 
-def generate_set(instrument, key):
+def generate_set(instrument, key, dimension=False):
     res = []
     for _key in app.pickup_data[instrument]:
         try:
-            res.append(app.pickup_data[instrument][_key][key])
+            if dimension:
+                res.append(app.pickup_data[instrument][_key]['dimensions'][key])
+            else:
+                res.append(app.pickup_data[instrument][_key][key])
         except (IndexError, KeyError):
             pass
 
@@ -40,7 +40,7 @@ def generate_set(instrument, key):
 
 
 def generate_range(instrument, key):
-    set = generate_set(instrument, key)
+    set = generate_set(instrument, key, True)
     return (floor(min(set)), ceil(max(set)))
 
 
@@ -50,19 +50,20 @@ def setup():
     }
 
     # Add checks for duplicate ids
-    for filepath in (Path(__file__).resolve().parent / Path("static") / Path("data") / Path("pickups") / Path("bass")).iterdir():
-        app.logger.info(f"Parsing file {filepath}")
+    for brand_dir in (Path(__file__).resolve().parent / Path("static") / Path("data") / Path("pickups") / Path("bass")).iterdir():
+        for filepath in brand_dir.iterdir():
+            app.logger.info(f"Parsing file {filepath}")
 
-        try:
-            with open(filepath, 'r') as file:
-                res = json.loads(file.read())
-                for instance in res if type(res) is list else [res]:
-                    parse_pickup_instance(instance)
-                    instance_id = instance.pop('id')
-                    app.pickup_data['bass'][instance_id] = instance
+            try:
+                with open(filepath, 'r') as file:
+                    res = json.loads(file.read())
+                    for instance in res if type(res) is list else [res]:
+                        instance_id = filepath.stem
+                        parse_pickup_instance(instance_id, instance)
+                        app.pickup_data['bass'][instance_id] = instance
 
-        except Exception as e:
-            app.logger.error(f"Exception in reading file {filepath} - {type(e).__name__}: {e}")
+            except Exception as e:
+                app.logger.error(f"Exception in reading file {filepath} - {type(e).__name__}: {e}")
 
     app.bass_pickup_filter = {
         'brands': generate_set('bass', 'brand'),

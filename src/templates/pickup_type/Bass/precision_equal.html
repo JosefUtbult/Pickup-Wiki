@@ -1,11 +1,31 @@
-{% if instance.fullWidth %}
 {% import "pickup_definitions.html" as defs %}
 
-{% set radius = (instance.fullWidth - instance.width) / 2 %}
+{# declare height if not specified #}
+{% if dimensions.height %}
+    {% set height = dimensions.height %}
+{% else %}
+    {% set height = 20 %}
+{% endif %}
+
+{# declare width if not specified #}
+{% if dimensions.width %}
+    {% set width = dimensions.width %}
+{% else %}
+    {% set width = 100 %}
+{% endif %}
+
+{# declare full width if not specified #}
+{% if dimensions.fullWidth %}
+    {% set fullWidth = dimensions.fullWidth %}
+{% else %}
+    {% set fullWidth = width + 10 %}
+{% endif %}
+
+{% set radius = (fullWidth - width) / 2 %}
 {% macro precision_equal(x, y) %}
     <circle
         cx="{{ x + radius }}mm",
-        cy="{{ y + instance.height / 2 }}mm",
+        cy="{{ y + height / 2 }}mm",
         r="{{ radius }}mm",
         stroke="black",
         fill="white",
@@ -13,8 +33,8 @@
         stroke-linejoin="round"
     />
     <circle
-        cx="{{ x + radius + instance.width }}mm",
-        cy="{{ y + instance.height / 2 }}mm",
+        cx="{{ x + radius + width }}mm",
+        cy="{{ y + height / 2 }}mm",
         r="{{ radius }}mm",
         stroke="black",
         fill="white",
@@ -24,54 +44,58 @@
     <rect
         x="{{ radius + x }}mm"
         y="{{ y }}mm" 
-        width="{{ instance.width }}mm" 
-        height="{{ instance.height }}mm" 
+        width="{{ width }}mm" 
+        height="{{ height }}mm" 
         stroke="black" 
         fill="white" 
         stroke-width="{{ defs.strokeWidth }}mm" 
         stroke-linejoin="round"
-        {% if instance.edgeRadius %}
-        rx="{{ instance.edgeRadius }}mm"
+        {% if edgeRadius %}
+        rx="{{ edgeRadius }}mm"
         {% else %}
         rx="2mm"
         {% endif %}
     />
 {% endmacro %}
 
-<svg height="{{ (instance.height + defs.padding) * 2 }}mm" width="{{ instance.width * 1.5 + (radius + defs.padding) * 2 }}mm">
-    {{ defs.debug_draw(instance.width * 1.5 + radius * 2, instance.height * 2) }}
+<svg height="{{ (height + defs.padding) * 2 }}mm" width="{{ width * 1.5 + (radius + defs.padding) * 2 }}mm">
+    {{ defs.debug_draw(width * 1.5 + radius * 2, height * 2) }}
     {{ precision_equal(defs.padding, defs.padding) }}
-    {{ precision_equal(defs.padding + instance.width / 2, defs.padding + instance.height) }}
+    {{ precision_equal(defs.padding + width / 2, defs.padding + height) }}
 
+    {% if dimensions.fullWidth %}
     <!-- Pickup ear to ear width -->
     {{ defs.horizontalDimension(
         defs.padding, 
-        defs.padding + instance.height / 2, 
-        instance.width + radius * 2, 
+        defs.padding + height / 2, 
+        width + radius * 2, 
         0
     ) }}
+    {% endif %}
+    {% if dimensions.width %}
     <!-- Pickup width -->
     {{ defs.horizontalDimension(
         defs.padding + radius, 
         defs.padding, 
-        instance.width, 
-        1
+        width, 
+        1 if dimensions.fullWidth else 0
     ) }}
+    {% endif %}
+    {% if dimensions.height %}
     <!-- Pickup height -->
     {{ defs.verticalDimension(
         defs.padding + radius,
         defs.padding, 
-        instance.height,
+        height,
         0
     ) }}
-    {% if instance.edgeRadius %}
+    {% endif %}
+    {% if dimensions.edgeRadius %}
     <!-- Edge radius -->
     {{ defs.bottomRightAngle(
-        defs.padding + instance.width * 1.5 + radius, 
-        defs.padding + instance.height * 2,
-        instance.edgeRadius
+        defs.padding + width * 1.5 + radius, 
+        defs.padding + height * 2,
+        dimensions.edgeRadius
     ) }}
     {% endif %}
 </svg>
-
-{% endif %}

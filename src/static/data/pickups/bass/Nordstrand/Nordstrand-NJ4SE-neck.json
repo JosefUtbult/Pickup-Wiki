@@ -1,0 +1,15 @@
+{
+    "name": "NJ4SE",
+    "brand": "Nordstrand Audio",
+    "type": "Jazz",
+    "strings": 4,
+    "position": "neck",
+    "link": "https://nordstrandaudio.com/products/nj4se-hum-cancelling",
+    "image": "img/pickups/bass/Nordstrand/NJ4SE.webp",
+    "dimensionalType": "jazz",
+    "dimensions": {
+        "spacing": 19.0,
+        "width": 91.44,
+        "height": 18.29
+    }
+}

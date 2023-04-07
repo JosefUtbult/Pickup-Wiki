@@ -1,0 +1,13 @@
+{
+    "name": "NP5",
+    "brand": "Nordstrand Audio",
+    "type": "Precision",
+    "strings": 5,
+    "link": "https://nordstrandaudio.com/collections/5-string-precision-bass-pickups/products/np5",
+    "image": "img/pickups/bass/Nordstrand/NP5.webp",
+    "dimensionalType": "precisionEqual",
+    "dimensions": {
+        "width": 56.52,
+        "height": 27.94
+    }
+}

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% set dimensions = instance.dimensions %}
+
 {% block title %}{{ instance.name }}{% endblock %}
 
 {% block stylesheets %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pickup.css') }}">{% endblock %}
@@ -16,25 +18,65 @@
                 <td>{{ instance.name }}</td>
             </tr>
             <tr>
-                <td>Brand</td>        
+                <td>Brand</td>
                 <td>{{ instance.brand }}</td>
             </tr>
             <tr>
-                <td>Pickup type</td>        
-                <td>{{ instance.type }}</td>
+                <td>Pickup type</td>
+                <td>{{ instance.type|title }}</td>
             </tr>
+            {% if instance.position %}
             <tr>
-                <td>Number of strings</td>        
-                <td>{{ instance.strings }}</td>
-            </tr>
-            {% for key in instance %}
-            {% if key not in ["name", "brand", "type", "strings", "link", "image", "dimensionalType"] %}
-            <tr>
-                <td>{{ key|capitalize }}</td>
-                <td>{{ instance[key]|capitalize }}{% if key in ["width", "height", "depth", "innerWidth", "fullHeight", "edgeRadius"] %} mm{% endif %}</td>
+                <td>Position</td>
+                <td>{{ instance.position|title }}</td>
             </tr>
             {% endif %}
-            {% endfor %}
+            <tr>
+                <td>Number of strings</td>
+                <td>{{ instance.strings }}</td>
+            </tr>
+            {% if dimensions.width %}
+            <tr>
+                <td>Width</td>
+                <td>{{ dimensions.width }}mm</td>
+            </tr>
+            {% endif %}
+            {% if dimensions.height %}
+            <tr>
+                <td>Height</td>
+                <td>{{ dimensions.height }}mm</td>
+            </tr>
+            {% endif %}
+            {% if dimensions.depth %}
+            <tr>
+                <td>Depth</td>
+                <td>{{ dimensions.depth }}mm</td>
+            </tr>
+            {% endif %}
+            {% if dimensions.innerHeight %}
+            <tr>
+                <td>Inner height</td>
+                <td>{{ dimensions.innerHeight }}mm</td>
+            </tr>
+            {% endif %}
+            {% if dimensions.fullHeight %}
+            <tr>
+                <td>Full height</td>
+                <td>{{ dimensions.fullHeight }}mm</td>
+            </tr>
+            {% endif %}
+            {% if dimensions.innerWidth %}
+            <tr>
+                <td>Inner width</td>
+                <td>{{ dimensions.innerWidth }}mm</td>
+            </tr>
+            {% endif %}
+            {% if dimensions.fullWidth %}
+            <tr>
+                <td>Full width</td>
+                <td>{{ dimensions.fullWidth }}mm</td>
+            </tr>
+            {% endif %}
         </table>
         {% if instance.link %}
         <a href="{{ instance.link }}">
@@ -49,10 +91,14 @@
         </div>
         {% endif %}
         <div class="dimensions">
-            {% if instance.dimensionalType == "Jazz" %}
+            {% if instance.dimensionalType == "jazz" %}
                 {% include "pickup_type/Bass/jazz.html" %}
             {% elif instance.dimensionalType == "precisionEqual" %}
                 {% include "pickup_type/Bass/precision_equal.html" %}
+            {% elif instance.dimensionalType == "humbuckerThreeEared" %}
+                {% include "pickup_type/Bass/humbucker_three_eared.html" %}
+            {% elif instance.dimensionalType == "humbuckerThreeInternal" %}
+                {% include "pickup_type/Bass/humbucker_three_internal.html" %}
             {% endif %}
         </div>
     </div>

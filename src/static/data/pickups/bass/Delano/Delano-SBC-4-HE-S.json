@@ -1,0 +1,15 @@
+{
+    "name": "SBC 4 HE/S",
+    "brand": "Delano",
+    "type": "Humbucker",
+    "strings": 4,
+    "link": "https://www.delano.de/sbc_4_he_s/sbc4_he_s_details.html",
+    "image": "img/pickups/bass/Delano/sbc_4_he_s.png",
+    "dimensionalType": "humbuckerThreeInternal",
+    "dimensions": {
+        "width": 88.0,
+        "height": 36.0,
+        "depth": 18.5,
+        "edgeRadius": 4.5
+    }
+}

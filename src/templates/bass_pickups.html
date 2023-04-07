@@ -111,7 +111,7 @@
             <th class="align-right">Depth</th>
             <th class="align-right">Manufacturer page</th>
         </tr>
-        {% for key in pickup_data.bass %}
+        {% for key in pickup_data.bass|sort() %}
         {% set instance=pickup_data.bass[key] %}
         <tr>
             <td><a href="{{ url_for('pickup_instance', key=key) }}">{{ instance.name|capitalize }}</a></td>
@@ -119,9 +119,9 @@
             <td>{{ instance.type|capitalize }}</td>
             <td>{{ instance.strings }}</td>
             <td>{% if instance.position %}{{ instance.position|capitalize }}{% endif %}</td>
-            <td class="align-right">{% if instance.width %}{{ instance.width }} mm{% endif %}</td>
-            <td class="align-right">{% if instance.height %}{{ instance.height }} mm{% endif %}</td>
-            <td class="align-right">{% if instance.depth %}{{ instance.depth }} mm{% endif %}</td>
+            <td class="align-right">{% if instance.dimensions.width %}{{ instance.dimensions.width }} mm{% endif %}</td>
+            <td class="align-right">{% if instance.dimensions.height %}{{ instance.dimensions.height }} mm{% endif %}</td>
+            <td class="align-right">{% if instance.dimensions.depth %}{{ instance.dimensions.depth }} mm{% endif %}</td>
             <td class="align-right">{% if instance.link %}<a href="{{ instance.link }}">{{ instance.name|capitalize }} - {{ instance.brand|capitalize }}</a>{% endif %}</td>
         </tr>
         {% endfor %}

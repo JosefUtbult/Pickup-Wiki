@@ -1,0 +1,16 @@
+{
+    "name": "PMVC 4 FE/M2",
+    "brand": "Delano",
+    "type": "Precision",
+    "strings": 4,
+    "link": "https://www.delano.de/pmvc_4_fe_m2/pmvc_4_fe_m2_details.html",
+    "image": "img/pickups/bass/Delano/pmvc_4_fe_m2.png",
+    "dimensionalType": "precisionEqual",
+    "dimensions": {
+        "width": 56.4,
+        "height": 27.4,
+        "depth": 19.0,
+        "fullWidth": 66.4,
+        "edgeRadius": 2.0
+    }
+}

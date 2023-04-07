@@ -1,0 +1,127 @@
+{% import "pickup_definitions.html" as defs %}
+
+{# declare height if not specified #}
+{% if dimensions.height %}
+    {% set height = dimensions.height %}
+{% else %}
+    {% set height = 20 %}
+{% endif %}
+
+{# declare width if not specified #}
+{% if dimensions.width %}
+    {% set width = dimensions.width %}
+{% else %}
+    {% set width = 100 %}
+{% endif %}
+
+{# declare full width if not specified #}
+{% if dimensions.fullWidth %}
+    {% set fullWidth = dimensions.fullWidth %}
+{% else %}
+    {% set fullWidth = width + 10 %}
+{% endif %}
+
+{# declare inner height if not specified #}
+{% if dimensions.innerHeight %}
+    {% set innerHeight = dimensions.innerHeight %}
+{% else %}
+    {% set innerHeight = height - 24 %}
+{% endif %}
+
+{% set radius = (fullWidth - width) / 2 %}
+{% set innerHeightOffset = (height - innerHeight)/2 %}
+
+<svg height="{{ height + defs.padding * 2 }}mm" width="{{ fullWidth + defs.padding * 2}}mm">
+    {{ defs.debug_draw(fullWidth, height) }}
+    <!-- Top left ear -->
+    <circle
+        cx="{{ defs.padding + radius }}mm",
+        cy="{{ defs.padding + innerHeightOffset }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+    <!-- Bottom left ear -->
+    <circle
+        cx="{{ defs.padding + radius }}mm",
+        cy="{{ defs.padding + innerHeightOffset + innerHeight }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+    <!-- Right ear -->
+    <circle
+        cx="{{ defs.padding + radius + width }}mm",
+        cy="{{ defs.padding + height / 2 }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+    <rect
+        x="{{ defs.padding + radius }}mm"
+        y="{{ defs.padding }}mm" 
+        width="{{ width }}mm" 
+        height="{{ height }}mm" 
+        stroke="black" 
+        fill="white" 
+        stroke-width="{{ defs.strokeWidth }}mm" 
+        stroke-linejoin="round"
+        {% if dimensions.edgeRadius %}
+        rx="{{ dimensions.edgeRadius }}mm"
+        {% else %}
+        rx="2mm"
+        {% endif %}
+    />
+
+    {% if dimensions.fullWidth %}
+        <!-- Pickup full width -->
+        {{ defs.horizontalDimension(
+            defs.padding, 
+            defs.padding + innerHeightOffset, 
+            width + radius * 2, 
+            0
+        ) }}
+    {% endif %}
+    {% if dimensions.width %}
+        <!-- Pickup width -->
+        {{ defs.horizontalDimension(
+            defs.padding + radius, 
+            defs.padding, 
+            width, 
+            1 if dimensions.fullWidth else 0
+        ) }}
+    {% endif %}
+    {% if dimensions.height %}
+        <!-- Pickup height -->
+        {{ defs.verticalDimension(
+            defs.padding + radius,
+            defs.padding, 
+            height,
+            0
+        ) }}
+    {% endif %}
+    {% if dimensions.innerHeight %}
+        <!-- Pickup inner height -->
+        {{ defs.verticalDimension(
+            defs.padding + radius,
+            defs.padding + innerHeightOffset, 
+            innerHeight,
+            1
+        ) }}
+    {% endif %}
+    {% if dimensions.edgeRadius %}
+        <!-- Edge radius -->
+        {{ defs.bottomRightAngle(
+            defs.padding + width + radius, 
+            defs.padding + height,
+            dimensions.edgeRadius
+        ) }}
+    {% endif %}
+
+</svg>

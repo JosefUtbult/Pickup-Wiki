@@ -1,0 +1,14 @@
+{
+    "name": "MM4.2",
+    "brand": "Nordstrand Audio",
+    "type": "Humbucker",
+    "strings": 4,
+    "link": "https://nordstrandaudio.com/products/mm4-2-dual-coil",
+    "image": "img/pickups/bass/Nordstrand/MM4-2.webp",
+    "dimensionalType": "humbuckerThreeEared",
+    "dimensions": {
+        "spacing": 19.0,
+        "width": 88.9,
+        "height": 48.13
+    }
+}

@@ -169,8 +169,8 @@
     />
     {% set textY = x - 0.5 %}
     <!-- Ugly hack to get the text position acceptable for small heights -->
-    {% if height < 20 %}
-        {% set textX = -padding - height - y + text_length + 0.5 %}
+    {% if height < 23 %}
+        {% set textX = -padding - height - y + text_length + 2.5 %}
     {% else %}
         {% set textX = -padding - (height - text_length) / 2 - text_length %}
     {% endif %}

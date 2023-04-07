@@ -1,0 +1,128 @@
+{% import "pickup_definitions.html" as defs %}
+
+{# declare height if not specified #}
+{% if dimensions.height %}
+    {% set height = dimensions.height %}
+{% else %}
+    {% set height = 20 %}
+{% endif %}
+
+{# declare width if not specified #}
+{% if dimensions.width %}
+    {% set width = dimensions.width %}
+{% else %}
+    {% set width = 100 %}
+{% endif %}
+
+{# declare full width if not specified #}
+{% if dimensions.innerWidth %}
+    {% set innerWidth = dimensions.innerWidth %}
+{% else %}
+    {% set innerWidth = width - 10 %}
+{% endif %}
+
+{# declare inner height if not specified #}
+{% if dimensions.innerHeight %}
+    {% set innerHeight = dimensions.innerHeight %}
+{% else %}
+    {% set innerHeight = height - 10 %}
+{% endif %}
+
+{% set innerWidthOffset = (width - innerWidth)/2 %}
+{% set innerHeightOffset = (height - innerHeight)/2 %}
+{% set radius = 2 %}
+
+<svg height="{{ height + defs.padding * 2 }}mm" width="{{ width + defs.padding * 2}}mm">
+    {{ defs.debug_draw(width, height) }}
+    <rect
+        x="{{ defs.padding }}mm"
+        y="{{ defs.padding }}mm" 
+        width="{{ width }}mm" 
+        height="{{ height }}mm" 
+        stroke="black" 
+        fill="white" 
+        stroke-width="{{ defs.strokeWidth }}mm" 
+        stroke-linejoin="round"
+        {% if dimensions.edgeRadius %}
+        rx="{{ dimensions.edgeRadius }}mm"
+        {% else %}
+        rx="2mm"
+        {% endif %}
+    />
+    <!-- Top left hole -->
+    <circle
+        cx="{{ defs.padding + innerWidthOffset }}mm",
+        cy="{{ defs.padding + innerHeightOffset }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+    <!-- Bottom left ear -->
+    <circle
+        cx="{{ defs.padding + innerWidthOffset }}mm",
+        cy="{{ defs.padding + innerHeightOffset + innerHeight }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+    <!-- Right ear -->
+    <circle
+        cx="{{ defs.padding + innerWidthOffset + innerWidth }}mm",
+        cy="{{ defs.padding + height / 2 }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+
+    {% if dimensions.width %}
+        <!-- Pickup width -->
+        {{ defs.horizontalDimension(
+            defs.padding, 
+            defs.padding, 
+            width, 
+            0
+        ) }}
+    {% endif %}
+    {% if dimensions.innerWidth %}
+        <!-- Pickup inner width -->
+        {{ defs.horizontalDimension(
+            defs.padding + innerWidthOffset, 
+            defs.padding + innerHeightOffset, 
+            innerWidth, 
+            1 if dimensions.width else 0
+        ) }}
+    {% endif %}
+    {% if dimensions.height %}
+        <!-- Pickup height -->
+        {{ defs.verticalDimension(
+            defs.padding,
+            defs.padding, 
+            height,
+            0
+        ) }}
+    {% endif %}
+    {% if dimensions.innerHeight %}
+        <!-- Pickup inner height -->
+        {{ defs.verticalDimension(
+            defs.padding + innerWidthOffset,
+            defs.padding + innerHeightOffset, 
+            innerHeight,
+            1 if dimensions.height else 0
+        ) }}
+    {% endif %}
+    {% if dimensions.edgeRadius %}
+        <!-- Edge radius -->
+        {{ defs.bottomRightAngle(
+            defs.padding + width, 
+            defs.padding + height,
+            dimensions.edgeRadius
+        ) }}
+    {% endif %}
+
+</svg>

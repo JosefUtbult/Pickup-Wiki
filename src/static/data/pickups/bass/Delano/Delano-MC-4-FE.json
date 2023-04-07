@@ -1,0 +1,14 @@
+{
+    "name": "MC 4 FE",
+    "brand": "Delano",
+    "type": "Humbucker",
+    "strings": 4,    
+    "link": "https://www.delano.de/mc_4_fe/mc_4_fe_details.html",
+    "image": "img/pickups/bass/Delano/mc_4_fe.png",
+    "dimensionalType": "humbuckerThreeEared",
+    "dimensions": {
+        "width": 89.0,
+        "height": 48.4,
+        "depth": 18.5
+    }
+}

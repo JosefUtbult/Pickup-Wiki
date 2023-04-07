@@ -1,0 +1,18 @@
+{
+    "name": "JMVC 5 FE/M2-AS",
+    "brand": "Delano",
+    "type": "Jazz",
+    "strings": 5,
+    "position": "bridge",
+    "link": "https://www.delano.de/jmvc_5_fe_m2/jmvc_5_fe_m2_details.html",
+    "image": "img/pickups/bass/Delano/jmvc_5_fe_m2-as.png",
+    "dimensionalType": "jazz",
+    "dimensions": {
+        "width": 104.6,
+        "height": 18.6,
+        "depth": 21.0,
+        "innerWidth": 49.0,
+        "fullHeight": 28.4,
+        "edgeRadius": 2.8
+    }
+}
