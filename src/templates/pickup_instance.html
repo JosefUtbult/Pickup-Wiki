@@ -28,7 +28,7 @@
                 <td>{{ instance.strings }}</td>
             </tr>
             {% for key in instance %}
-            {% if key not in ["name", "brand", "type", "strings", "link", "image"] %}
+            {% if key not in ["name", "brand", "type", "strings", "link", "image", "dimensionalType"] %}
             <tr>
                 <td>{{ key|capitalize }}</td>
                 <td>{{ instance[key]|capitalize }}{% if key in ["width", "height", "depth", "innerWidth", "fullHeight", "edgeRadius"] %} mm{% endif %}</td>
@@ -49,8 +49,10 @@
         </div>
         {% endif %}
         <div class="dimensions">
-            {% if instance.type == "Jazz" %}
-            {% include "pickup_type/Bass/jazz.html" %}
+            {% if instance.dimensionalType == "Jazz" %}
+                {% include "pickup_type/Bass/jazz.html" %}
+            {% elif instance.dimensionalType == "precisionEqual" %}
+                {% include "pickup_type/Bass/precision_equal.html" %}
             {% endif %}
         </div>
     </div>

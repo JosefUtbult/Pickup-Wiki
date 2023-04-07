@@ -1,0 +1,77 @@
+{% if instance.fullWidth %}
+{% import "pickup_definitions.html" as defs %}
+
+{% set radius = (instance.fullWidth - instance.width) / 2 %}
+{% macro precision_equal(x, y) %}
+    <circle
+        cx="{{ x + radius }}mm",
+        cy="{{ y + instance.height / 2 }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+    <circle
+        cx="{{ x + radius + instance.width }}mm",
+        cy="{{ y + instance.height / 2 }}mm",
+        r="{{ radius }}mm",
+        stroke="black",
+        fill="white",
+        stroke-width="{{ defs.strokeWidth }}mm",
+        stroke-linejoin="round"
+    />
+    <rect
+        x="{{ radius + x }}mm"
+        y="{{ y }}mm" 
+        width="{{ instance.width }}mm" 
+        height="{{ instance.height }}mm" 
+        stroke="black" 
+        fill="white" 
+        stroke-width="{{ defs.strokeWidth }}mm" 
+        stroke-linejoin="round"
+        {% if instance.edgeRadius %}
+        rx="{{ instance.edgeRadius }}mm"
+        {% else %}
+        rx="2mm"
+        {% endif %}
+    />
+{% endmacro %}
+
+<svg height="{{ (instance.height + defs.padding) * 2 }}mm" width="{{ instance.width * 1.5 + (radius + defs.padding) * 2 }}mm">
+    {{ defs.debug_draw(instance.width * 1.5 + radius * 2, instance.height * 2) }}
+    {{ precision_equal(defs.padding, defs.padding) }}
+    {{ precision_equal(defs.padding + instance.width / 2, defs.padding + instance.height) }}
+
+    <!-- Pickup ear to ear width -->
+    {{ defs.horizontalDimension(
+        defs.padding, 
+        defs.padding + instance.height / 2, 
+        instance.width + radius * 2, 
+        0
+    ) }}
+    <!-- Pickup width -->
+    {{ defs.horizontalDimension(
+        defs.padding + radius, 
+        defs.padding, 
+        instance.width, 
+        1
+    ) }}
+    <!-- Pickup height -->
+    {{ defs.verticalDimension(
+        defs.padding + radius,
+        defs.padding, 
+        instance.height,
+        0
+    ) }}
+    {% if instance.edgeRadius %}
+    <!-- Edge radius -->
+    {{ defs.bottomRightAngle(
+        defs.padding + instance.width * 1.5 + radius, 
+        defs.padding + instance.height * 2,
+        instance.edgeRadius
+    ) }}
+    {% endif %}
+</svg>
+
+{% endif %}

@@ -1,5 +1,259 @@
-{% set padding = 3 %}
-{% set dimensional_padding = 10 %}
-{% set full_padding = dimensional_padding + padding %}
-{% set stroke_width = 0.2 %}
 {% set debug = 0 %}
+
+{% set outerPadding = 5 %}
+{% set dimensionalPadding = 10 %}
+{% set padding = dimensionalPadding + outerPadding %}
+{% set strokeWidth = 0.2 %}
+{% set angleLineLength = 5 %}
+{% set dimensionHeight = 4 %}
+{% set arrowOffset = 1.6 %}
+
+{% macro debug_draw(width, height) %}
+{% if debug %}
+    <!-- Debug boxes -->
+    <rect
+        x="0",
+        y="0",
+        width="100%",
+        height="100%",
+        stroke="red",
+        fill="none",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+    <rect
+        x="{{ outerPadding }}mm",
+        y="{{ outerPadding }}mm",
+        width="{{ width + dimensionalPadding * 2 }}mm",
+        height="{{ height + dimensionalPadding * 2 }}mm",
+        stroke="green",
+        fill="none",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+    <rect
+        x="{{ padding }}mm",
+        y="{{ padding }}mm",
+        width="{{ width }}mm",
+        height="{{ height }}mm",
+        stroke="blue",
+        fill="none",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+{% endif %}
+{% endmacro %}
+
+{% macro horizontalLine(x, y, width) %}
+    {% if width > 999.9 %}
+        {% set text_length = 20 %}
+    {% elif width > 99.9 %}
+        {% set text_length = 16 %}
+    {% else %}
+        {% set text_length = 14 %}
+    {% endif %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + width }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrowOffset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrowOffset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y - arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    <line
+        x1="{{ x + width }}mm",
+        x2="{{ x + width - arrowOffset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    <line
+        x1="{{ x + width }}mm",
+        x2="{{ x + width - arrowOffset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y - arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    <text
+        x="{{ x + (width - text_length) / 2 }}mm",
+        y="{{ y - 0.5 }}mm",
+        textLength="{{ text_length }}mm",
+        fill="gray"
+    >{{ "%.1fmm"|format(width) }}</text>
+{% endmacro %}
+
+{% macro horizontalDimension(x, y, width, layer) %}
+    {% set _y = outerPadding + dimensionHeight / 2 + dimensionHeight * layer %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x }}mm",
+        y1="{{ outerPadding + dimensionHeight * layer }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+    <line
+        x1="{{ x + width }}mm",
+        x2="{{ x + width }}mm",
+        y1="{{ outerPadding + dimensionHeight * layer }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+    {{ horizontalLine(x, _y, width) }}
+
+{% endmacro %}
+
+{% macro verticalLine(x, y, height) %}
+    {% if height > 999.9 %}
+        {% set text_length = 20 %}
+    {% elif height > 99.9 %}
+        {% set text_length = 16 %}
+    {% else %}
+        {% set text_length = 14 %}
+    {% endif %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + height }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrowOffset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x - arrowOffset }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x - arrowOffset }}mm",
+        y1="{{ y + height }}mm",
+        y2="{{ y + height - arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + arrowOffset }}mm",
+        y1="{{ y + height }}mm",
+        y2="{{ y + height - arrowOffset}}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}"
+    />
+    {% set textY = x - 0.5 %}
+    <!-- Ugly hack to get the text position acceptable for small heights -->
+    {% if height < 20 %}
+        {% set textX = -padding - height - y + text_length + 0.5 %}
+    {% else %}
+        {% set textX = -padding - (height - text_length) / 2 - text_length %}
+    {% endif %}
+    <text
+        transform="rotate(-90, 0, 0)"
+        x="{{ textX }}mm",
+        y="{{ textY }}mm",
+        textLength="{{ text_length }}mm",
+        fill="gray",
+    >{{ "%.1fmm"|format(height) }}</text>
+    
+{% endmacro %}
+
+
+{% macro verticalDimension(x, y, height, layer) %}
+    {% set _x = outerPadding + dimensionHeight / 2 + dimensionHeight * layer %}
+    <line
+        x1="{{ outerPadding + dimensionHeight * layer }}mm",
+        x2="{{ x }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+    <line
+        x1="{{ outerPadding + dimensionHeight * layer }}mm",
+        x2="{{ x }}mm",
+        y1="{{ y + height }}mm",
+        y2="{{ y + height }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+
+    {{ verticalLine(_x, y, height) }}
+
+{% endmacro %}
+
+{% macro topRightAngle(x, y, radius) %}
+    {% if radius > 999.9 %}
+        {% set text_length = 20 %}
+    {% elif radius > 99.9 %}
+        {% set text_length = 16 %}
+    {% else %}
+        {% set text_length = 14 %}
+    {% endif %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + angleLineLength }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y - angleLineLength }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+
+    <text
+        x="{{ x + angleLineLength - text_length / 2 }}mm",
+        y="{{ y - angleLineLength - 0.5 }}mm",
+        textLength="{{ text_length }}mm",
+        fill="gray",
+    >{{ "R%.1fmm"|format(radius) }}</text>
+{% endmacro %}
+
+{% macro bottomRightAngle(x, y, radius) %}
+    {% if radius > 999.9 %}
+        {% set text_length = 20 %}
+    {% elif radius > 99.9 %}
+        {% set text_length = 16 %}
+    {% else %}
+        {% set text_length = 14 %}
+    {% endif %}
+    <line
+        x1="{{ x }}mm",
+        x2="{{ x + angleLineLength }}mm",
+        y1="{{ y }}mm",
+        y2="{{ y + angleLineLength }}mm",
+        stroke="gray",
+        stroke-width="{{ strokeWidth }}mm"
+    />
+
+    <text
+        x="{{ x + angleLineLength - text_length / 2 }}mm",
+        y="{{ y + angleLineLength + dimensionHeight + 0.5 }}mm",
+        textLength="{{ text_length }}mm",
+        fill="gray",
+    >{{ "R%.1fmm"|format(radius) }}</text>
+{% endmacro %}
